@@ -1,0 +1,7 @@
+{
+  "name": "SFMPL TMS v4",
+  "description": "Transport Management System for SFMPL with user authentication, party and place management, order tracking, vehicle dispatch, MF master, and profit reporting.",
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
