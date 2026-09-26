@@ -161,9 +161,9 @@ export const ProjectedProfitChart: React.FC<ProjectedProfitChartProps> = ({
       }
     }
 
-    // Daily run rate: based on elapsed days or active days
+    // Daily run rate: strictly calculated from actual data. If no MFs exist, run rate is 0!
     const divisor = daysWithDataCount > 0 ? daysWithDataCount : Math.max(elapsedDays, 1);
-    const runRate = cumulativeActual > 0 ? cumulativeActual / divisor : 15000; // sensible fallback
+    const runRate = cumulativeActual > 0 ? cumulativeActual / divisor : 0;
     const projectedRemaining = runRate * Math.max(totalDaysInMonth - elapsedDays, 0);
     const projectedMonthEndTotal = cumulativeActual + projectedRemaining;
 
@@ -499,6 +499,17 @@ export const ProjectedProfitChart: React.FC<ProjectedProfitChartProps> = ({
 
         {/* SVG Container */}
         <div className="relative w-full overflow-hidden">
+          {activeCurrentMonthCount === 0 && (
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-slate-950/40 backdrop-blur-[2px] rounded-lg p-6 text-center pointer-events-none">
+              <div className="w-10 h-10 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-2">
+                <Info className="w-5 h-5" />
+              </div>
+              <h4 className="text-sm font-semibold text-slate-200">No Dispatches Manifested for {monthName}</h4>
+              <p className="text-xs text-slate-400 max-w-md mt-1">
+                Realized profit and run-rate projections will calculate dynamically as you create Sales Orders and generate Money Freight (MF) dispatches.
+              </p>
+            </div>
+          )}
           <svg
             viewBox={`0 0 ${chartWidth} ${chartHeight}`}
             className="w-full h-auto overflow-visible cursor-crosshair"
